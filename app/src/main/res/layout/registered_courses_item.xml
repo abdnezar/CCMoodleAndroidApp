@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="250dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivCourse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="40dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_gravity="bottom|center_horizontal">
+
+            <TextView
+                android:id="@+id/tvCourseName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/title_bg"
+                android:textSize="18sp"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-medium"
+                android:text="Android Course"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:background="@drawable/btn_bg"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_gravity="center|end"
+            android:translationX="5dp"
+            android:layout_height="50dp"/>
+    </FrameLayout>
+</androidx.cardview.widget.CardView>

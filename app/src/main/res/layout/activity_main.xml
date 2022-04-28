@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    tools:context=".ui.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search About Any Course"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:drawableStart="@drawable/ic_search"
+            android:drawableTint="@color/black"
+            android:gravity="center_vertical"
+            android:background="@drawable/et_bg"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/category_item"
+            tools:itemCount="20"
+            android:orientation="horizontal"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_trending_up"
+                android:drawableTint="@color/black"
+                android:drawablePadding="5dp"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:text="Most Sell"/>
+
+            <TextView
+                android:id="@+id/btnSeeMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:text="See More"
+                android:drawableEnd="@drawable/ic_arrow_right"/>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/course_item"
+            tools:itemCount="20"
+            android:orientation="horizontal"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_registere"
+                android:drawableTint="@color/black"
+                android:drawablePadding="5dp"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:text="Active Courses"/>
+
+            <TextView
+                android:id="@+id/btnAllCourses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:text="See All Courses"
+                android:drawableEnd="@drawable/ic_arrow_right"/>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRegisteredCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/registered_courses_item"
+            tools:itemCount="5"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

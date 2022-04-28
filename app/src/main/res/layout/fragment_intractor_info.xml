@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    android:layout_gravity="bottom"
+    tools:context=".ui.InstructorInfoFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/et_bg"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="12dp">
+
+            <ImageView
+                android:id="@+id/instructorImg"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/logo"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/instructorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:text="Instructor Name"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/instructorAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="Instructor Address"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/instructorBornDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="serif"
+                android:text="Born at \n "
+                android:textColor="@color/black"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/purple_700"
+                android:text=" * "
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/instructorJoinDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="serif"
+                android:text="Join At \n "
+                android:textColor="@color/black"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/instructorBio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/long_text"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="3">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCall"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:drawableStart="@drawable/ic_phone"
+                android:text="Call"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_bg"
+                android:layout_margin="2dp"
+                android:drawableTint="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEmail"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:drawableStart="@drawable/ic_email"
+                android:text="Email"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_bg"
+                android:layout_margin="2dp"
+                android:drawableTint="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnStartPrivateChat"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:drawableStart="@drawable/ic_chat"
+                android:text="Chat"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_bg"
+                android:layout_margin="2dp"
+                android:drawableTint="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

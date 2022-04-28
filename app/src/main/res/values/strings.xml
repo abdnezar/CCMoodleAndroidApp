@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CC Moodle</string>
+    <string name="default_notification_channel_id" translatable="false">1</string>
+    <string name="long_text">lorem ipsem lorem ipsem lorem ipsem lorem ipsem lorem ipsem lorem ipsem lorem ipsem lorem ipsem lorem ipsem</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

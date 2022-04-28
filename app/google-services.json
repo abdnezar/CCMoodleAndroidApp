@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1012317903760",
+    "project_id": "cc-moodle-395e5",
+    "storage_bucket": "cc-moodle-395e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012317903760:android:ca17e0dd722cbd538af115",
+        "android_client_info": {
+          "package_name": "com.example.ccmoodle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012317903760-koa50cr33rdboqk0q9hmvnj2ndvttg63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApxd0BDoS_5toI5tHS_7N0mNI-3kSGvgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012317903760-koa50cr33rdboqk0q9hmvnj2ndvttg63.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

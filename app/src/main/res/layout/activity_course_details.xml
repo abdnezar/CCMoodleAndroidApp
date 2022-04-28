@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:id="@+id/courseDetailsLayout"
+    tools:context=".ui.CourseDetailsActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp">
+
+                <ImageView
+                    android:id="@+id/ivCourse"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvCourseName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:padding="5dp"
+                android:text="Course Name"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvCourseCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="serif"
+                    android:text="Course Category"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textColor="@color/purple_700"
+                    android:text=" * "
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvCourseHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="serif"
+                    android:text="Course Hours"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:text=" * "
+                    android:textColor="@color/purple_700"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvCourseRegistration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="serif"
+                    android:text="Course Registration Number"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCourseCreateDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="Created At \n "
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:text=" * "
+                    android:textColor="@color/purple_700"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvCourseLastUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="Last Update At \n "
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvInstructor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/tvInstructor"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/title_bg"
+                        android:src="@drawable/ic_person"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvInstructorName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Instructor Name"/>
+
+                        <TextView
+                            android:id="@+id/tvInstructorEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:text="Instructor Email"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvCourseDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="3dp"
+                android:text="@string/long_text"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvLecturesNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_lectures"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/black"
+                    android:text="Lectures "/>
+
+                <TextView
+                    android:id="@+id/tvPublicChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textSize="16sp"
+                    android:background="@drawable/btn_bg"
+                    android:padding="3dp"
+                    android:layout_gravity="end"
+                    android:textColor="@color/white"
+                    android:drawablePadding="5dp"
+                    android:drawableEnd="@drawable/ic_arrow_right"
+                    android:drawableTint="@color/white"
+                    android:text="Course Chat"/>
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLectures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:listitem="@layout/course_item"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:spanCount="3"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRegisterCourse"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_bg"
+        android:textColor="@color/white"
+        android:drawablePadding="3dp"
+        android:padding="2dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="Register Course"/>
+
+    <FrameLayout
+        android:id="@+id/flBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

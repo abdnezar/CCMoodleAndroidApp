@@ -51,6 +51,14 @@
         android:layout_margin="2dp"
         android:background="@drawable/et_bg"/>
     <EditText
+        android:id="@+id/etBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Bio"
+        android:layout_margin="2dp"
+        android:background="@drawable/et_bg"/>
+    <EditText
         android:id="@+id/etBirthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

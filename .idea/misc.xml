@@ -6,13 +6,18 @@
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/drawable/btn_bg.xml" value="0.208" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/drawable/et_bg.xml" value="0.208" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/drawable/ic_link.xml" value="0.2205" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/drawable/message_bg.xml" value="0.258" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/drawable/title_bg.xml" value="0.2205" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_chat.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_course_detailes.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_course_details.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_login.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_private_chat.xml" value="0.2526041666666667" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_public_chat.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_search.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_signup.xml" value="0.2526041666666667" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_single_category.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_splash.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/activity_ytvideo.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/category_item.xml" value="0.2526041666666667" />
@@ -20,7 +25,9 @@
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/course_item.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/fragment_intractor_info.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/fragment_lecture_info.xml" value="0.2526041666666667" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/item_message.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/lecture_item.xml" value="0.2526041666666667" />
+        <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/message_bg.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/layout/registered_courses_item.xml" value="0.2526041666666667" />
         <entry key="..\:/AndroidStudioProjects/CCMoodle/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.208" />
       </map>

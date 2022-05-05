@@ -65,10 +65,10 @@ class Helper {
         fun saveUserSession(context: Context, user: FirebaseUser) {
             val sharedPref = context.getSharedPreferences(User.SHARED_PREF_NAME, Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
-                putString("userId", user.uid)
-                putString("displayName", user.displayName)
-                putString("email", user.email)
-                putString("photoUrl", user.photoUrl?.toString())
+                putString(User.SHARED_USER_ID, user.uid)
+                putString(User.SHARED_PREF_NAME, user.displayName)
+                putString(User.SHARED_USER_EMAIL, user.email)
+                putString(User.SHARED_USER_PHOTO, user.photoUrl?.toString())
                 commit()
             }
         }

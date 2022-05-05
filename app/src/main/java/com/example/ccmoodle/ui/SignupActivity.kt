@@ -63,6 +63,7 @@ class SignupActivity : AppCompatActivity() {
                 binding.etPhone.text.isNotEmpty()&&
                 binding.etPassword.text.isNotEmpty()&&
                 binding.etConfirmPassword.text.isNotEmpty()&&
+                binding.etBio.text.isNotEmpty()&&
                 binding.etPassword.text.toString() == binding.etConfirmPassword.text.toString()
             ) {
                 auth.createUserWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString())
@@ -78,6 +79,7 @@ class SignupActivity : AppCompatActivity() {
                                 binding.etBirthday.text.toString().toInt(),
                                 binding.etAddress.text.toString(),
                                 binding.etEmail.text.toString(),
+                                binding.etBio.text.toString(),
                                 binding.etPhone.text.toString().toLong(),
                                 if (binding.rbUser.isChecked) User.STUDENT_ENUM else User.TEACHER_ENUM,
                                 token
@@ -94,8 +96,8 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserDate(user: FirebaseUser, fName: String, mName: String, lName: String, birthdayYear: Int, address: String, email: String, phone: Long,role: Int,token: String) {
-        val cUser = User(user.uid,fName,mName,lName,birthdayYear,address,phone,email,role,token,null,null)
+    private fun saveUserDate(user: FirebaseUser, fName: String, mName: String, lName: String, birthdayYear: Int, address: String, email: String, bio: String, phone: Long,role: Int,token: String) {
+        val cUser = User(user.uid,fName,mName,lName,birthdayYear,address,phone,email,bio,role,token,null,null)
         db.collection(User.USERS_COLLECTION).document(user.uid).set(cUser).addOnSuccessListener {
             saveUserSession(applicationContext, user)
             startActivity(Intent(this, MainActivity::class.java))

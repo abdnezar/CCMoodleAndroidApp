@@ -1,15 +1,17 @@
 package com.example.ccmoodle.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.ccmoodle.adapters.CoursesAdapter
+import android.view.View
 import com.example.ccmoodle.adapters.LecturesAdapter
 import com.example.ccmoodle.databinding.ActivityCourseDetailsBinding
 import com.example.ccmoodle.models.Course
-import com.example.ccmoodle.models.Course.Companion.COURSE_ID
 import com.example.ccmoodle.models.Lecture
 import com.example.ccmoodle.models.User
-import com.example.ccmoodle.utils.Helper
+import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_DOCS
+import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_ID
+import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_VIDEO
 import com.example.ccmoodle.utils.Helper.Companion.fillImage
 import com.example.ccmoodle.utils.Helper.Companion.formatDate
 import com.example.ccmoodle.utils.Helper.Companion.log
@@ -26,13 +28,13 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
     private var db = Firebase.firestore
     private var user = Firebase.auth.currentUser
     private var courseId : String = ""
+    private var courseName : String = ""
     private var isCourseRegistered : Boolean = false
+    private lateinit var instructorId: String
 
     companion object {
-        const val LECTURE_VIDEO = "lectureVideo"
-        const val LECTURE_DOCS = "lectureDocs"
-        const val LECTURE_ID = "lectureId"
-        const val COURSE_ID = "courseId"
+        const val EXTRA_COURSE_ID = "courseId"
+        const val EXTRA_COURSE_NAME = "courseName"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,17 +45,38 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
         lecturesAdapter = LecturesAdapter(this, this)
         binding.rvLectures.adapter = lecturesAdapter
 
-        courseId = intent.getStringExtra(MainActivity.EXTRA_COURSE_ID)!!
-        isCourseRegistered = intent.getBooleanExtra(MainActivity.EXTRA_IS_COURSE_REGISTERED, false)
+        courseId = intent.getStringExtra(EXTRA_COURSE_ID)!!
+        courseName = intent.getStringExtra(EXTRA_COURSE_NAME)!!
 
-        if (isCourseRegistered) {
-            binding.btnRegisterCourse.text = "Unregister Course"
-        } else {
-            binding.btnRegisterCourse.text = "Register Course"
+        binding.tvPublicChat.setOnClickListener {
+            val i = Intent(this, PublicChatActivity::class.java)
+            i.putExtra(PublicChatActivity.COURSE_ID,courseId)
+            i.putExtra(PublicChatActivity.CHAT_TITLE,courseName)
+            startActivity(i)
         }
 
         getCourseInfo()
         getLectures()
+        checkIsCourseRegistered()
+    }
+
+    private fun checkIsCourseRegistered() {
+        db.collection(User.USERS_COLLECTION).document(user!!.uid).get()
+            .addOnSuccessListener {
+                val activeCourses = it[User.USER_ACTIVE_COURSES] as List<*>?
+                if (activeCourses?.contains(courseId) == true) {
+                    binding.btnRegisterCourse.text = "Move To Trash"
+                    isCourseRegistered = true
+                } else {
+                    binding.btnRegisterCourse.text = "Register Course"
+                    isCourseRegistered = false
+                }
+                binding.btnRegisterCourse.isEnabled = true
+            }
+            .addOnFailureListener {
+                toast(applicationContext, "Failed to get course info")
+                finish()
+            }
     }
 
     private fun getLectures() {
@@ -84,7 +107,13 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
         super.onResume()
 
         binding.cvInstructor.setOnClickListener {
-            InstructorInfoFragment().show(supportFragmentManager, "InstructorInfoFragment")
+            InstructorInfoFragment()
+                .apply {
+                    arguments = Bundle().apply {
+                        putString(InstructorInfoFragment.INSTRUCTOR_ID, instructorId)
+                    }
+                }
+                .show(supportFragmentManager, "InstructorInfoFragment")
         }
 
         binding.btnRegisterCourse.setOnClickListener {
@@ -116,9 +145,15 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
             .document(user!!.uid)
             .get()
             .addOnSuccessListener {
-                val activeCourses = it[User.USER_ACTIVE_COURSES] as List<String>
-                if (activeCourses.size < 5) {
+                val activeCourses = it[User.USER_ACTIVE_COURSES] as List<*>?
+                if (activeCourses == null) {
                     registerCourse()
+                } else {
+                    if (activeCourses.size >= 5) {
+                        toast(this, "You can't add more than 5 courses")
+                    } else {
+                        registerCourse()
+                    }
                 }
             }
             .addOnFailureListener {
@@ -170,6 +205,8 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
         db.collection(User.USERS_COLLECTION).document(ownerId).get()
             .addOnSuccessListener {
                 it.toObject(User::class.java)?.let { user ->
+                    binding.cvInstructor.visibility = View.VISIBLE
+                    instructorId = user.id
                     binding.tvInstructorName.text ="${user.firstName} ${user.middleName[0].uppercaseChar()} ${user.lastName}"
                     binding.tvInstructorEmail.text = user.email
                 }
@@ -188,7 +225,7 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
                         putString(LECTURE_VIDEO, lecture.vUrl)
                         putString(LECTURE_DOCS, lecture.docsUrl)
                         putString(LECTURE_ID, lecture.getId())
-                        putString(COURSE_ID, courseId)
+                        putString(LectureInfoFragment.COURSE_ID, courseId)
                     }
                 }
                 .show(supportFragmentManager, "LectureInfoFragment")

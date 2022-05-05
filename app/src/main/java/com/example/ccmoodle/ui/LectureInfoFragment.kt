@@ -44,25 +44,32 @@ class LectureInfoFragment : BottomSheetDialogFragment() {
     private lateinit var binding : FragmentLectureInfoBinding
     private var lectureId : String? = null
 
+    companion object {
+        const val LECTURE_VIDEO = "lectureVideo"
+        const val LECTURE_DOCS = "lectureDocs"
+        const val LECTURE_ID = "lectureId"
+        const val COURSE_ID = "courseId"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentLectureInfoBinding.inflate(inflater, container, false)
         binding = _binding!!
 
-        lectureId = arguments?.getString(CourseDetailsActivity.LECTURE_ID)
-        val lectureVideoUrl = arguments?.getString(CourseDetailsActivity.LECTURE_VIDEO)
-        val lectureDocsUrl = arguments?.getString(CourseDetailsActivity.LECTURE_DOCS)
-        val courseId = arguments?.getString(CourseDetailsActivity.COURSE_ID)
+        lectureId = arguments?.getString(LECTURE_ID)
+        val lectureVideoUrl = arguments?.getString(LECTURE_VIDEO)
+        val lectureDocsUrl = arguments?.getString(LECTURE_DOCS)
+        val courseId = arguments?.getString(COURSE_ID)
 
         binding.btnWatch.setOnClickListener {
             val i = Intent(activity, YTVideoActivity::class.java)
-            i.putExtra(CourseDetailsActivity.LECTURE_VIDEO, lectureVideoUrl)
-            i.putExtra(CourseDetailsActivity.LECTURE_ID, lectureId)
-            i.putExtra(CourseDetailsActivity.COURSE_ID, courseId)
+            i.putExtra(LECTURE_VIDEO, lectureVideoUrl)
+            i.putExtra(LECTURE_ID, lectureId)
+            i.putExtra(COURSE_ID, courseId)
             activity?.startActivity(i)
         }
 
         binding.btnSeeDocs.setOnClickListener {
-            if (lectureDocsUrl != null) {
+            if (lectureDocsUrl != null && lectureDocsUrl.isNotEmpty()) {
                 openUrl(requireActivity(), lectureDocsUrl)
             } else {
                 toast(requireActivity(), "No documents available")

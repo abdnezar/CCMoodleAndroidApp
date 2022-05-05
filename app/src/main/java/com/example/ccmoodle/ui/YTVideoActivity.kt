@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.ccmoodle.databinding.ActivityYtvideoBinding
 import com.example.ccmoodle.models.Course
 import com.example.ccmoodle.models.Lecture
+import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_VIDEO
 import com.example.ccmoodle.utils.Helper
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -26,6 +27,13 @@ class YTVideoActivity : AppCompatActivity() {
     private val db = Firebase.firestore
     private var videoId: String? = null
     private var lectureId: String? = null
+    private var courseId: String? = null
+
+    companion object {
+        const val LECTURE_VIDEO = "lectureVideo"
+        const val LECTURE_ID = "lectureId"
+        const val COURSE_ID = "courseId"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +42,9 @@ class YTVideoActivity : AppCompatActivity() {
         binding = ActivityYtvideoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val videoId = intent.getStringExtra(CourseDetailsActivity.LECTURE_VIDEO)!!
-        val lectureId = intent.getStringExtra(CourseDetailsActivity.LECTURE_ID)!!
-        val courseId = intent.getStringExtra(CourseDetailsActivity.COURSE_ID)!!
+        videoId = intent.getStringExtra(LECTURE_VIDEO)!!
+        lectureId = intent.getStringExtra(LECTURE_ID)!!
+        courseId = intent.getStringExtra(COURSE_ID)!!
 
         Helper.toast(this, "We Prepare Video, Please Wait Some Time")
 
@@ -52,11 +60,11 @@ class YTVideoActivity : AppCompatActivity() {
 
         youTubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
             override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
-                youTubePlayer.loadVideo(videoId, 0f)
+                youTubePlayer.loadVideo(videoId!!, 0f)
                 db.collection(Course.COURSES_COLLECTION)
-                    .document(courseId)
+                    .document(courseId!!)
                     .collection(Lecture.LECTURES_COLLECTION)
-                    .document(lectureId)
+                    .document(lectureId!!)
                     .update(Lecture.LECTURE_WATCHERS_IDS, FieldValue.arrayUnion(Helper.getCurrentUser()!!.uid))
             }
         }, true, iFramePlayerOptions)

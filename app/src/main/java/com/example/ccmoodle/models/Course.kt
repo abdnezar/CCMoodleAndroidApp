@@ -1,10 +1,12 @@
 package com.example.ccmoodle.models
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 
 class Course {
-    @Exclude private var id: String = ""
+    @DocumentId
+    var id: String = ""
     var img: String = ""
     var title: String = ""
     var category: String = ""
@@ -37,10 +39,6 @@ class Course {
         this.title = title
         this.category = category
         this.hours = hours
-    }
-
-    fun getId(): String {
-        return id
     }
 
     companion object {

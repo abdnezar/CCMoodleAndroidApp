@@ -4,23 +4,26 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".utils.Application"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
-        android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/logo"
+        android:preserveLegacyExternalStorage="true"
+        android:supportsRtl="true"
         android:theme="@style/Theme.CCMoodle">
-
+        <activity
+            android:name=".ui.SingleCategoryActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.YTVideoActivity"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.CourseDetailsActivity"
             android:exported="false" />
@@ -59,13 +62,14 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.PublicChatActivity"
+            android:exported="false"/>
     </application>
-
 </manifest>

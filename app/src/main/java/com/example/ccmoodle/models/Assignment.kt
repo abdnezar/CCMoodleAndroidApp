@@ -4,7 +4,8 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 
 class Assignment {
-    @Exclude private var id : String = ""
+    @Exclude
+    private lateinit var id : String
     var date: Timestamp = Timestamp.now()
     var fileUrl: String = ""
     var userId: String = ""

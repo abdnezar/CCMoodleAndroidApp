@@ -26,7 +26,6 @@ class CoursesAdapter(val context: Context, val click: OnClick) : RecyclerView.Ad
         val course = list[position]
 
         fillImage(context, course.img, holder.binding.ivCourse)
-        course.getId()
         holder.binding.tvTitle.text = course.title
         holder.binding.tvCategory.text = course.category
         holder.binding.tvHours.text = course.hours.toString() + " Hour"

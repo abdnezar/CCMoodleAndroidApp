@@ -2,6 +2,9 @@ package com.example.ccmoodle.utils
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import com.example.ccmoodle.utils.Helper.Companion.updateUserToken
 import com.example.ccmoodle.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -36,4 +39,5 @@ class Application : Application() {
             return
         }
     }
+
 }

@@ -128,8 +128,19 @@
                     android:gravity="center"/>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvCourseDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="3dp"
+                android:text="@string/long_text"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvInstructor"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -173,16 +184,6 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tvCourseDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:padding="3dp"
-                android:text="@string/long_text"
-                android:textColor="@color/black"
-                android:gravity="center"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -229,6 +230,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegisterCourse"
         android:layout_width="wrap_content"
+        android:enabled="false"
         android:layout_height="55dp"
         android:background="@drawable/btn_bg"
         android:textColor="@color/white"
@@ -237,7 +239,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="5dp"
         android:gravity="center"
-        android:text="Register Course"/>
+        android:text="..."/>
 
     <FrameLayout
         android:id="@+id/flBottomSheet"

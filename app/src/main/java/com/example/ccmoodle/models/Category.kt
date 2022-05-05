@@ -1,9 +1,11 @@
 package com.example.ccmoodle.models
 
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 
 class Category {
-    @Exclude private var id: String = ""
+    @DocumentId
+    var id: String = ""
     var name: String = ""
 
     constructor(id: String, name: String) {

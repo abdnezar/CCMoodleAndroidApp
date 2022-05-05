@@ -50,17 +50,6 @@
                 android:textColor="@color/black"
                 android:text="Most Sell"/>
 
-            <TextView
-                android:id="@+id/btnSeeMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_bg"
-                android:layout_gravity="end|center_vertical"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="5dp"
-                android:text="See More"
-                android:drawableEnd="@drawable/ic_arrow_right"/>
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -72,34 +61,17 @@
             tools:itemCount="20"
             android:orientation="horizontal"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_registere"
-                android:drawableTint="@color/black"
-                android:drawablePadding="5dp"
-                android:textSize="18sp"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/black"
-                android:text="Active Courses"/>
-
-            <TextView
-                android:id="@+id/btnAllCourses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_bg"
-                android:layout_gravity="end|center_vertical"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="5dp"
-                android:text="See All Courses"
-                android:drawableEnd="@drawable/ic_arrow_right"/>
-        </FrameLayout>
+            android:drawableStart="@drawable/ic_registere"
+            android:drawableTint="@color/black"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="Active Courses"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRegisteredCourses"
@@ -108,6 +80,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/registered_courses_item"
             tools:itemCount="5"/>
-
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.SearchActivity">
-
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/et_bg"
-        android:hint="Search by course name"
-        android:padding="10dp"
-        android:layout_margin="5dp"/>
+    tools:context=".ui.SingleCategoryActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCourses"
@@ -24,5 +13,4 @@
         tools:listitem="@layout/registered_courses_item"
         app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

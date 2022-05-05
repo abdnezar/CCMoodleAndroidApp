@@ -41,6 +41,7 @@ dependencies {
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    implementation 'com.firebaseui:firebase-ui-database:8.0.1'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
@@ -53,4 +54,5 @@ dependencies {
 
     // YTPlayer
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.26'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
 }

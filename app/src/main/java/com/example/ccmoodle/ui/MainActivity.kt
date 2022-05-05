@@ -10,9 +10,13 @@ import com.example.ccmoodle.databinding.ActivityMainBinding
 import com.example.ccmoodle.models.Category
 import com.example.ccmoodle.models.Course
 import com.example.ccmoodle.models.User
+import com.example.ccmoodle.ui.CourseDetailsActivity.Companion.EXTRA_COURSE_ID
+import com.example.ccmoodle.ui.CourseDetailsActivity.Companion.EXTRA_COURSE_NAME
 import com.example.ccmoodle.utils.Helper
+import com.example.ccmoodle.utils.Helper.Companion.toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCoursesAdapter.OnClick, CategoriesAdapter.OnClick{
@@ -24,11 +28,6 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
     private lateinit var registeredCoursesAdapter: RegisteredCoursesAdapter
     private lateinit var categoriesAdapter: CategoriesAdapter
 
-    companion object {
-        const val EXTRA_IS_COURSE_REGISTERED = "isCourseRegistered"
-        const val EXTRA_COURSE_ID = "courseId"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -37,14 +36,11 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
         coursesAdapter = CoursesAdapter(this, this)
         binding.rvCourses.adapter = coursesAdapter
 
-
         registeredCoursesAdapter = RegisteredCoursesAdapter(this, this)
         binding.rvRegisteredCourses.adapter = registeredCoursesAdapter
 
-
         categoriesAdapter = CategoriesAdapter(this, this)
         binding.rvCategories.adapter = categoriesAdapter
-
     }
 
     override fun onResume() {
@@ -55,10 +51,8 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
         }
 
         initCategoriesAdapter()
-        initRegisteredCoursesAdapter()
         initCoursesAdapter()
-
-
+        initRegisteredCoursesAdapter()
     }
 
     private fun initCategoriesAdapter() {
@@ -68,18 +62,11 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
     }
 
     private fun initCoursesAdapter() {
-        val courses = ArrayList<Course>()
         db.collection(Course.COURSES_COLLECTION)
             .limit(20)
             .get()
             .addOnSuccessListener { docs ->
-                docs.documents.forEach {
-                    val img = it[Course.COURSE_IMG] as String
-                    val title = it[Course.COURSE_TITLE] as String
-                    val cat = it[Course.COURSE_CATEGORY] as String
-                    val hours = it[Course.COURSE_HOURS] as Long
-                    courses.add(Course(it.id,img,title, cat, hours.toInt()))
-                }
+                val courses = docs.toObjects<Course>()
                 coursesAdapter.setData(courses)
             }
             .addOnFailureListener {
@@ -125,19 +112,21 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
 
     override fun onClickCourse(course: Course) {
         val intent = Intent(this, CourseDetailsActivity::class.java)
-        intent.putExtra(EXTRA_IS_COURSE_REGISTERED, false)
-        intent.putExtra(EXTRA_COURSE_ID, course.getId())
+        intent.putExtra(EXTRA_COURSE_ID, course.id)
+        intent.putExtra(EXTRA_COURSE_NAME, course.title)
         startActivity(intent)
     }
 
     override fun onClickRegisteredCourse(course: Course) {
         val intent = Intent(this, CourseDetailsActivity::class.java)
-        intent.putExtra(EXTRA_IS_COURSE_REGISTERED, true)
-        intent.putExtra(EXTRA_COURSE_ID, course.getId())
+        intent.putExtra(EXTRA_COURSE_ID, course.id)
+        intent.putExtra(EXTRA_COURSE_NAME, course.title)
         startActivity(intent)
     }
 
     override fun onClickCategory(category: Category) {
-
+        val i = Intent(applicationContext, SingleCategoryActivity::class.java)
+        i.putExtra(SingleCategoryActivity.CATEGORY_NAME, category.name)
+        startActivity(i)
     }
 }

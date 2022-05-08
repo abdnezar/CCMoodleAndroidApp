@@ -14,6 +14,7 @@ import com.example.ccmoodle.ui.CourseDetailsActivity.Companion.EXTRA_COURSE_ID
 import com.example.ccmoodle.ui.CourseDetailsActivity.Companion.EXTRA_COURSE_NAME
 import com.example.ccmoodle.utils.Helper
 import com.example.ccmoodle.utils.Helper.Companion.toast
+import com.example.ccmoodle.utils.JavaMailAPI
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -41,6 +42,19 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
 
         categoriesAdapter = CategoriesAdapter(this, this)
         binding.rvCategories.adapter = categoriesAdapter
+
+        db.collection(User.USERS_COLLECTION).document(user!!.uid).get().addOnSuccessListener {
+            val user = it.toObject(User::class.java)
+            if(user!!.role == User.TEACHER_ENUM){
+                binding.btnDashboard.visibility = android.view.View.VISIBLE
+
+                binding.btnDashboard.setOnClickListener {
+                    val i = Intent(this, DashboardActivity::class.java)
+                    i.putExtra(DashboardActivity.EXTRA_TEACHER_ID, user.id)
+                    startActivity(i)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -91,7 +105,7 @@ class MainActivity : AppCompatActivity() , CoursesAdapter.OnClick, RegisteredCou
                             val title = it[Course.COURSE_TITLE] as String
                             val cat = it[Course.COURSE_CATEGORY] as String
                             val hours = it[Course.COURSE_HOURS] as Long
-                            registeredCourses.add(Course(it.id, img, title, cat, hours.toInt()))
+                            registeredCourses.add(Course(it.id, img, title, cat, hours))
 
                             if (courseId.toString() == registeredCoursesIds.last().toString()) {
                                 registeredCoursesAdapter.setData(registeredCourses)

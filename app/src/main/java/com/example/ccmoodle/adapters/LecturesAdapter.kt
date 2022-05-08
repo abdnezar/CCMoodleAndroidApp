@@ -11,7 +11,7 @@ import com.example.ccmoodle.models.Lecture
 import com.example.ccmoodle.utils.Helper
 import com.example.ccmoodle.utils.Helper.Companion.formatDate
 
-class LecturesAdapter(val context: Context, val click: OnClick) : RecyclerView.Adapter<LecturesAdapter.ViewHolder>() {
+class LecturesAdapter(val context: Context, val click: OnClick, val isTeacher: Boolean) : RecyclerView.Adapter<LecturesAdapter.ViewHolder>() {
     private var list = mutableListOf<Lecture>()
 
     // For View Binding
@@ -28,7 +28,6 @@ class LecturesAdapter(val context: Context, val click: OnClick) : RecyclerView.A
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val lecture = list[position]
 
-        lecture.getId()
         holder.binding.tvTitle.text = lecture.title
         holder.binding.tvDate.text = formatDate(lecture.date)
         holder.binding.tvWatchNumber.text = lecture.watchersIds.size.toString() + " view"
@@ -39,7 +38,8 @@ class LecturesAdapter(val context: Context, val click: OnClick) : RecyclerView.A
         }
 
         holder.binding.root.setOnClickListener {
-            click.onClickLecture(lecture)
+            if (isTeacher) click.onTeacherClickLecture(lecture)
+            else click.onStudentClickLecture(lecture, holder.layoutPosition)
         }
     }
 
@@ -55,6 +55,7 @@ class LecturesAdapter(val context: Context, val click: OnClick) : RecyclerView.A
     }
 
     interface OnClick {
-        fun onClickLecture(lecture: Lecture)
+        fun onStudentClickLecture(lecture: Lecture, position: Int) {}
+        fun onTeacherClickLecture(lecture: Lecture) {}
     }
 }

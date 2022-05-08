@@ -11,9 +11,10 @@ class Course {
     var title: String = ""
     var category: String = ""
     var registersIds = listOf<String>()
+    var registersEmails = listOf<String>()
     var desc: String = ""
     var ownerId: String = ""
-    var hours: Int = 0
+    var hours: Long = 0
     var createDate: Timestamp = Timestamp.now()
     var lastUpdateDate: Timestamp = Timestamp.now()
 
@@ -21,19 +22,17 @@ class Course {
     constructor()
 
     // constructor for creating a new course
-    constructor(id: String, img: String, title: String, category: String, registersIds: List<String>, desc: String, ownerId: String, hours: Int) {
-        this.id = id
+    constructor(img: String, title: String, category: String, desc: String, ownerId: String, hours: Long) {
         this.img = img
         this.title = title
         this.category = category
-        this.registersIds = registersIds
         this.desc = desc
         this.ownerId = ownerId
         this.hours = hours
     }
 
     // Most Sell Adapter Constructor
-    constructor(id: String,img: String, title: String, category: String, hours: Int) {
+    constructor(id: String,img: String, title: String, category: String, hours: Long) {
         this.id = id
         this.img = img
         this.title = title
@@ -52,5 +51,8 @@ class Course {
         const val COURSE_OWNER_ID = "ownerId"
         const val COURSE_HOURS = "hours"
         const val COURSE_REGISTERS_IDS = "registersIds"
+        const val COURSE_REGISTERS_EMAILS = "registersEmails"
+        const val COURSE_LAST_UPDATE_DATE = "lastUpdateDate"
+        const val COURSE_CREATE_DATE = "createDate"
     }
 }

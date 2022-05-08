@@ -1,6 +1,8 @@
 package com.example.ccmoodle.ui
 
+import android.R
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.NonNull
@@ -8,17 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.ccmoodle.databinding.ActivityYtvideoBinding
 import com.example.ccmoodle.models.Course
 import com.example.ccmoodle.models.Lecture
-import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_VIDEO
 import com.example.ccmoodle.utils.Helper
+import com.example.ccmoodle.utils.Helper.Companion.YT_SUFFIX_1
+import com.example.ccmoodle.utils.Helper.Companion.YT_SUFFIX_2
+import com.example.ccmoodle.utils.Helper.Companion.toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
-
-
 
 
 class YTVideoActivity : AppCompatActivity() {
@@ -42,11 +45,22 @@ class YTVideoActivity : AppCompatActivity() {
         binding = ActivityYtvideoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        MobileAds.initialize(this)
+
         videoId = intent.getStringExtra(LECTURE_VIDEO)!!
         lectureId = intent.getStringExtra(LECTURE_ID)!!
         courseId = intent.getStringExtra(COURSE_ID)!!
 
-        Helper.toast(this, "We Prepare Video, Please Wait Some Time")
+        if (videoId!!.startsWith(YT_SUFFIX_1)) {
+            videoId = videoId!!.replace(YT_SUFFIX_2, "")
+        }
+        if (videoId!!.startsWith(YT_SUFFIX_2)) {
+            videoId = videoId!!.replace(YT_SUFFIX_2, "")
+        }
+
+        toast(this, "We Prepare Video, Please Wait Some Time .")
+        toast(this, "We Prepare Video, Please Wait Some Time ..")
+        toast(this, "We Prepare Video, Please Wait Some Time ...")
 
         val youTubePlayerView = binding.youtubePlayer
         lifecycle.addObserver(youTubePlayerView)
@@ -68,6 +82,13 @@ class YTVideoActivity : AppCompatActivity() {
                     .update(Lecture.LECTURE_WATCHERS_IDS, FieldValue.arrayUnion(Helper.getCurrentUser()!!.uid))
             }
         }, true, iFramePlayerOptions)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     override fun onDestroy() {

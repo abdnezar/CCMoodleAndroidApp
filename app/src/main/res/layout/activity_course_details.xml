@@ -187,7 +187,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <TextView
                     android:id="@+id/tvLecturesNumber"
@@ -240,6 +241,21 @@
         android:layout_margin="5dp"
         android:gravity="center"
         android:text="..."/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNewLecture"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:drawableStart="@drawable/ic_add"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_bg"
+        android:textColor="@color/white"
+        android:drawablePadding="3dp"
+        android:padding="2dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="New Lecture"/>
 
     <FrameLayout
         android:id="@+id/flBottomSheet"

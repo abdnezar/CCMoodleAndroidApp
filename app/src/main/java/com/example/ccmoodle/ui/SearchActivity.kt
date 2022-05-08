@@ -44,6 +44,7 @@ class SearchActivity : AppCompatActivity(), RegisteredCoursesAdapter.OnClick {
             override fun afterTextChanged(s: Editable?) {
                 if (s?.length!! > 3) {
                     db.collection(Course.COURSES_COLLECTION)
+                        .orderBy(Course.COURSE_TITLE)
                         .whereGreaterThanOrEqualTo(Course.COURSE_TITLE, binding.etSearch.text.toString())
                         .get()
                         .addOnSuccessListener { docs ->

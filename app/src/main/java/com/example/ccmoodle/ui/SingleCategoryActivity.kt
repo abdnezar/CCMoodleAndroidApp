@@ -53,6 +53,7 @@ class SingleCategoryActivity : AppCompatActivity() , RegisteredCoursesAdapter.On
     override fun onClickRegisteredCourse(course: Course) {
         val i = Intent(this, CourseDetailsActivity::class.java)
         i.putExtra(CourseDetailsActivity.EXTRA_COURSE_ID, course.id)
+        i.putExtra(CourseDetailsActivity.EXTRA_COURSE_NAME, course.title)
         startActivity(i)
     }
 }

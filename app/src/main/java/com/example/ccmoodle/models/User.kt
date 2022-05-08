@@ -36,6 +36,14 @@ class User {
         this.finishedCourses = finishedCourses
     }
 
+    constructor(id: String, fName: String, middleName: String, lName: String, email: String) {
+        this.id = id
+        this.firstName = fName
+        this.middleName = middleName
+        this.lastName = lName
+        this.email = email
+    }
+
     companion object {
         const val USERS_COLLECTION = "USERS"
 
@@ -47,6 +55,7 @@ class User {
         const val SHARED_USER_NAME = "userName"
         const val SHARED_USER_EMAIL = "userEmail"
         const val SHARED_USER_PHOTO = "userPhoto"
+        const val SHARED_USER_ROLE = "userRole"
 
         const val USER_ID = "id"
         const val USER_FIRST_NAME = "firstName"

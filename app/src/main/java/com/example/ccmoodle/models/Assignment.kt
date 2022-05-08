@@ -1,14 +1,17 @@
 package com.example.ccmoodle.models
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 
 class Assignment {
-    @Exclude
-    private lateinit var id : String
+    @DocumentId
+    var id : String = ""
     var date: Timestamp = Timestamp.now()
     var fileUrl: String = ""
     var userId: String = ""
+    @Exclude var userName: String? = null
+    @Exclude var userEmail: String? = null
 
     constructor()
     constructor(id: String, fileUrl: String, userId: String,  date: Timestamp = Timestamp.now()) {
@@ -18,8 +21,13 @@ class Assignment {
         this.userId = userId
     }
 
-    fun getId(): String {
-        return id
+    // assignment adapter constructor
+    constructor(id: String, url: String, date: Timestamp, userName: String, userEmail: String) {
+        this.id = id
+        this.date = date
+        this.fileUrl = url
+        this.userName = userName
+        this.userEmail = userEmail
     }
 
     companion object {

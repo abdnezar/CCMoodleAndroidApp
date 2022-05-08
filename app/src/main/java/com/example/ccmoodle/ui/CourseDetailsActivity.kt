@@ -12,12 +12,16 @@ import com.example.ccmoodle.models.User
 import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_DOCS
 import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_ID
 import com.example.ccmoodle.ui.LectureInfoFragment.Companion.LECTURE_VIDEO
+import com.example.ccmoodle.utils.FCMService
 import com.example.ccmoodle.utils.Helper.Companion.fillImage
 import com.example.ccmoodle.utils.Helper.Companion.formatDate
 import com.example.ccmoodle.utils.Helper.Companion.log
+import com.example.ccmoodle.utils.Helper.Companion.subscribeToTopic
 import com.example.ccmoodle.utils.Helper.Companion.toast
+import com.example.ccmoodle.utils.Helper.Companion.unSubscribeToTopic
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -31,10 +35,13 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
     private var courseName : String = ""
     private var isCourseRegistered : Boolean = false
     private lateinit var instructorId: String
+    private var isTeacher: Boolean = false
+    private var teacherToken = ""
 
     companion object {
         const val EXTRA_COURSE_ID = "courseId"
         const val EXTRA_COURSE_NAME = "courseName"
+        const val EXTRA_IS_TEACHER = "isTeacher"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +49,25 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
         binding = ActivityCourseDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lecturesAdapter = LecturesAdapter(this, this)
-        binding.rvLectures.adapter = lecturesAdapter
-
         courseId = intent.getStringExtra(EXTRA_COURSE_ID)!!
         courseName = intent.getStringExtra(EXTRA_COURSE_NAME)!!
+        isTeacher = intent.getBooleanExtra(EXTRA_IS_TEACHER, false)
+
+        lecturesAdapter = LecturesAdapter(this, this, isTeacher)
+        binding.rvLectures.adapter = lecturesAdapter
+
+        if (isTeacher) {
+            binding.btnRegisterCourse.visibility = View.GONE
+            binding.btnNewLecture.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        getCourseInfo()
+        getLectures()
+        checkIsCourseRegistered()
 
         binding.tvPublicChat.setOnClickListener {
             val i = Intent(this, PublicChatActivity::class.java)
@@ -55,9 +76,30 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
             startActivity(i)
         }
 
-        getCourseInfo()
-        getLectures()
-        checkIsCourseRegistered()
+        binding.btnNewLecture.setOnClickListener {
+            val intent = Intent(this, AddLectureActivity::class.java)
+            intent.putExtra(AddLectureActivity.EXTRA_COURSE_ID, courseId)
+            intent.putExtra(AddLectureActivity.EXTRA_COURSE_NAME, courseName)
+            startActivity(intent)
+        }
+
+        binding.cvInstructor.setOnClickListener {
+            InstructorInfoFragment()
+                .apply {
+                    arguments = Bundle().apply {
+                        putString(InstructorInfoFragment.INSTRUCTOR_ID, instructorId)
+                    }
+                }
+                .show(supportFragmentManager, "InstructorInfoFragment")
+        }
+
+        binding.btnRegisterCourse.setOnClickListener {
+            if (isCourseRegistered) {
+                unregisterCourse()
+            } else {
+                checkIsCanAddCourse()
+            }
+        }
     }
 
     private fun checkIsCourseRegistered() {
@@ -103,34 +145,15 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
             }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        binding.cvInstructor.setOnClickListener {
-            InstructorInfoFragment()
-                .apply {
-                    arguments = Bundle().apply {
-                        putString(InstructorInfoFragment.INSTRUCTOR_ID, instructorId)
-                    }
-                }
-                .show(supportFragmentManager, "InstructorInfoFragment")
-        }
-
-        binding.btnRegisterCourse.setOnClickListener {
-            if (isCourseRegistered) {
-                unregisterCourse()
-            } else {
-                checkIsCanAddCourse()
-            }
-        }
-    }
-
     private fun unregisterCourse() {
         db.collection(User.USERS_COLLECTION)
             .document(user!!.uid)
             .update(User.USER_ACTIVE_COURSES, FieldValue.arrayRemove(courseId), User.USER_FINISHED_COURSES, FieldValue.arrayUnion(courseId))
             .addOnSuccessListener {
                 toast(this, "Course Unregistered Successfully")
+                db.collection(Course.COURSES_COLLECTION).document(courseId).update(Course.COURSE_REGISTERS_IDS, FieldValue.arrayRemove(user!!.uid))
+                db.collection(Course.COURSES_COLLECTION).document(courseId).update(Course.COURSE_REGISTERS_EMAILS, FieldValue.arrayRemove(user!!.email))
+                unSubscribeToTopic(courseId)
                 isCourseRegistered = false
                 binding.btnRegisterCourse.text = "Register Course"
             }
@@ -162,12 +185,16 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
             }
     }
 
-    private fun registerCourse(){
+    private fun registerCourse() {
         db.collection(User.USERS_COLLECTION)
             .document(user!!.uid)
             .update(User.USER_ACTIVE_COURSES, FieldValue.arrayUnion(courseId))
             .addOnSuccessListener {
+                db.collection(Course.COURSES_COLLECTION).document(courseId).update(Course.COURSE_REGISTERS_IDS, FieldValue.arrayUnion(user!!.uid))
+                db.collection(Course.COURSES_COLLECTION).document(courseId).update(Course.COURSE_REGISTERS_EMAILS, FieldValue.arrayUnion(user!!.email))
                 toast(this, "Course Registered Successfully")
+                subscribeToTopic(courseId)
+                FCMService.sendRemoteNotification("New Registration to $courseName", "${user?.email ?: user?.displayName} have been registered to ${courseName}", teacherToken)
                 isCourseRegistered = true
                 binding.btnRegisterCourse.text = "Unregister Course"
             }
@@ -188,8 +215,8 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
                     binding.tvCourseCategory.text = course.category
                     binding.tvCourseHours.text = "${course.hours} \n hours"
                     binding.tvCourseRegistration.text = "${course.registersIds.size} \n registration"
-                    binding.tvCourseCreateDate.text = "${binding.tvCourseCreateDate.text} ${formatDate(course.createDate)}"
-                    binding.tvCourseLastUpdate.text = "${binding.tvCourseLastUpdate.text} ${formatDate(course.lastUpdateDate)}"
+                    binding.tvCourseCreateDate.text = " Created At \n ${formatDate(course.createDate)}"
+                    binding.tvCourseLastUpdate.text = " Updated At \n ${formatDate(course.lastUpdateDate)}"
                     binding.tvCourseDesc.text = course.desc
 
                     fillInstructorInfo(course.ownerId)
@@ -209,6 +236,7 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
                     instructorId = user.id
                     binding.tvInstructorName.text ="${user.firstName} ${user.middleName[0].uppercaseChar()} ${user.lastName}"
                     binding.tvInstructorEmail.text = user.email
+                    teacherToken = user.token
                 }
             }
             .addOnFailureListener {
@@ -217,21 +245,46 @@ class CourseDetailsActivity : AppCompatActivity(), LecturesAdapter.OnClick {
             }
     }
 
-    override fun onClickLecture(lecture: Lecture) {
+    override fun onStudentClickLecture(lecture: Lecture, position: Int) {
         if (isCourseRegistered) {
-            LectureInfoFragment()
-                .apply {
-                    arguments = Bundle().apply {
-                        putString(LECTURE_VIDEO, lecture.vUrl)
-                        putString(LECTURE_DOCS, lecture.docsUrl)
-                        putString(LECTURE_ID, lecture.getId())
-                        putString(LectureInfoFragment.COURSE_ID, courseId)
+            db.collection(Course.COURSES_COLLECTION)
+                .document(courseId)
+                .collection(Lecture.LECTURES_COLLECTION)
+                .orderBy(Lecture.LECTURE_Date)
+                .get()
+                .addOnSuccessListener {
+                    val lectures = it.toObjects(Lecture::class.java)
+
+                    if (position != 0 && !lectures[position-1].watchersIds.contains(user!!.uid)) {
+                        toast(applicationContext, "All previous lectures must be viewed first")
+                        return@addOnSuccessListener
                     }
+
+                    LectureInfoFragment()
+                        .apply {
+                            arguments = Bundle().apply {
+                                putString(LECTURE_VIDEO, lecture.videoUrl)
+                                putString(LECTURE_DOCS, lecture.docsUrl)
+                                putString(LECTURE_ID, lecture.id)
+                                putString(LectureInfoFragment.COURSE_ID, courseId)
+                            }
+                        }
+                        .show(supportFragmentManager, "LectureInfoFragment")
                 }
-                .show(supportFragmentManager, "LectureInfoFragment")
+                .addOnFailureListener {
+                    log(this, "Error getting lectures $it")
+                    toast(applicationContext, "Error getting lectures $it")
+                }
         } else {
             toast(this, "You must register course to view lectures")
         }
     }
 
+    override fun onTeacherClickLecture(lecture: Lecture) {
+        val intent = Intent(this, AddLectureActivity::class.java)
+        intent.putExtra(AddLectureActivity.EXTRA_COURSE_ID, courseId)
+        intent.putExtra(AddLectureActivity.EXTRA_LECTURE_ID, lecture.id)
+        intent.putExtra(AddLectureActivity.EXTRA_COURSE_NAME, courseName)
+        startActivity(intent)
+    }
 }

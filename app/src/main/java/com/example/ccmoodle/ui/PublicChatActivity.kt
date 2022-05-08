@@ -31,7 +31,7 @@ import com.google.firebase.storage.StorageReference
 class PublicChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPublicChatBinding
     private var cUser = Firebase.auth.currentUser
-    private var mUsername = cUser?.displayName ?: getSharedPreferences(User.SHARED_PREF_NAME, 0).getString(User.SHARED_PREF_NAME, "User")
+    private var mUsername =  cUser?.displayName
     private var mSendButton: ImageButton? = null
     private var mMessageRecyclerView: RecyclerView? = null
     private var mLinearLayoutManager: LinearLayoutManager? = null

@@ -1,20 +1,23 @@
 package com.example.ccmoodle.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.example.ccmoodle.utils.Helper.Companion.saveUserSession
-import com.example.ccmoodle.utils.Helper.Companion.toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ccmoodle.databinding.ActivitySignupBinding
 import com.example.ccmoodle.models.User
+import com.example.ccmoodle.utils.Helper.Companion.saveUserSession
+import com.example.ccmoodle.utils.Helper.Companion.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -99,6 +102,10 @@ class SignupActivity : AppCompatActivity() {
     private fun saveUserDate(user: FirebaseUser, fName: String, mName: String, lName: String, birthdayYear: Int, address: String, email: String, bio: String, phone: Long,role: Int,token: String) {
         val cUser = User(user.uid,fName,mName,lName,birthdayYear,address,phone,email,bio,role,token,null,null)
         db.collection(User.USERS_COLLECTION).document(user.uid).set(cUser).addOnSuccessListener {
+            val profileUpdates = userProfileChangeRequest {
+                displayName = "$fName $lName"
+            }
+            user.updateProfile(profileUpdates)
             saveUserSession(applicationContext, user)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
